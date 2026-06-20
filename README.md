@@ -143,6 +143,10 @@ curl -X POST http://localhost:8000/chat \
 }
 ```
 
+### Example Terminal Output
+<img width="1607" height="402" alt="image" src="https://github.com/user-attachments/assets/023ab8a9-4644-4618-9c08-05db5fc9005c" />
+
+
 ### `GET /movies`
 
 Filter and list movies. All params are optional.
