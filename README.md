@@ -196,13 +196,13 @@ The obvious future work would be vector/semantic-search for similarity queries a
 
 A few things that are perhaps "missing":
 
-The challenge brief asks for separate tables for movies, genres and ratings. I have movies and genres (plus a `movie_genres` link table and a `cast` table), but no standalone ratings table. TMDB only ships aggregated ratings, so I put `vote_average` and `vote_count` as columns on `movies`. A one-row-per-movie ratings table would be just to tick a box. MovieLens is probably more suited to this use case as I'd have proper per-user ratings and the table would actually earn its place.
+The challenge doc asks for separate tables for movies, genres and ratings. I have movies and genres (plus a `movie_genres` link table and a `cast` table), but no standalone ratings table. TMDB only provides aggregated ratings, so I put `vote_average` and `vote_count` as columns on `movies`. A ratings table with one row per movie would be there just to tick a box. MovieLens is probably optimal for this use case as I'd have proper per-user ratings and the table would be more appropriate.
 
-The intent parser is regex. It handles the example queries in the brief and a fair spread around them, but it falls over on anything off-script - ask it about a person ("tell me about Christopher Nolan") and it has no concept of person entities, only titles. An LLM-based classifier would be the proper fix or NER.
+The intent parser is regex. It handles the example queries in the doc and plenty of variations around them, but it falls over on anything off-script, e.g. asking it about a person ("tell me about Christopher Nolan") - it'll have no concept of person entities, only titles. An LLM-based classifier would be the proper fix or NER.
 
 Title matching is `LIKE '%X%'`, so "tell me about The Dark Knight" pulls back the original plus *Rises* and the animated *Returns*. The LLM picks the right one from context, but ranking exact matches first would be a quick win.
 
 First request is slow (~30-60s) while the model warms up; subsequent ones are 5–10s. Streaming responses would help the UX a lot.
-`/chat` is stateless - no conversation memory. Scoped out on purpose to keep v1 small, but a `session_id` + in-memory dict would get most of the way there.
+`/chat` is stateless - no conversation memory, scoped out on purpose to keep the solution small, but a `session_id` + in-memory dict would allow for basic memory.
 
-Normally straight away I'd add auth, rate limiting and Docker containerisation, but no need for that in this challenge.
+Typically, I'd add auth, rate limiting and Docker containerisation, but no need for that in this challenge.
